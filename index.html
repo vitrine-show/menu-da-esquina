@@ -618,6 +618,22 @@
     .btn-finalizar .btn-count { font-size: 14px; padding: 2px 8px; }
     .modal { padding: 20px 14px 30px; }
   }
+
+  /* PÁGINA INICIAL E MENU LATERAL */
+  .home { display: flex; flex-direction: column; gap: 12px; padding: 24px 16px calc(120px + env(safe-area-inset-bottom, 0px)); max-width: 480px; margin: 0 auto; }
+  .home.oculto { display: none; }
+  .home-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--branco); background: var(--marrom-medio); border: 2px solid var(--amarelo); border-radius: 14px; padding: 18px 16px; cursor: pointer; }
+  .home-btn:active { background: var(--amarelo); color: var(--marrom); }
+  .topbar { display: none; position: sticky; top: 0; z-index: 100; align-items: center; gap: 12px; padding: 10px 16px; background: var(--marrom-medio); border-bottom: 3px solid var(--amarelo); }
+  .topbar.ativo { display: flex; }
+  .menu-btn { font-size: 28px; line-height: 1; color: var(--amarelo); background: none; border: none; cursor: pointer; padding: 4px 8px; }
+  .topbar-titulo { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--amarelo); }
+  .drawer-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 600; }
+  .drawer-overlay.ativo { display: block; }
+  .drawer { position: fixed; top: 0; left: 0; bottom: 0; width: 260px; max-width: 80vw; background: var(--marrom); border-right: 3px solid var(--amarelo); z-index: 601; transform: translateX(-100%); transition: transform .25s ease; display: flex; flex-direction: column; padding: 16px 0; overflow-y: auto; }
+  .drawer.ativo { transform: translateX(0); }
+  .drawer-item { font-family: 'Barlow Condensed', sans-serif; font-size: 19px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--cinza); background: none; border: none; text-align: left; padding: 14px 24px; cursor: pointer; }
+  .drawer-item:active { color: var(--amarelo); }
 </style>
 </head>
 <body>
@@ -630,22 +646,42 @@
   <p>Aqui a vida tem mais sabor</p>
 </div>
 
-<!-- TABS -->
-<div class="tabs-wrapper">
-  <div class="tabs">
-    <div class="tab active" data-tab="espetinhos" onclick="showTab(event,'espetinhos')">Espetinhos</div>
-    <div class="tab" data-tab="porcoes" onclick="showTab(event,'porcoes')">Porções</div>
-    <div class="tab" data-tab="jantinha" onclick="showTab(event,'jantinha')">Jantinha</div>
-    <div class="tab" data-tab="bebidasnaturais" onclick="showTab(event,'bebidasnaturais')">Natural</div>
-    <div class="tab" data-tab="refrigerantes" onclick="showTab(event,'refrigerantes')">Bebidas</div>
-    <div class="tab" data-tab="cervejas" onclick="showTab(event,'cervejas')">Cervejas</div>
-    <div class="tab" data-tab="drinks" onclick="showTab(event,'drinks')">Drinks</div>
-    <div class="tab" data-tab="doses" onclick="showTab(event,'doses')">Doses</div>
-  </div>
+<!-- PÁGINA INICIAL -->
+<div class="home" id="home">
+    <button type="button" class="home-btn" onclick="abrirCategoria('espetinhos','')">Espetinhos</button>
+    <button type="button" class="home-btn" onclick="abrirCategoria('porcoes','')">Porções</button>
+    <button type="button" class="home-btn" onclick="abrirCategoria('hamburguer','')">Hambúrguer</button>
+    <button type="button" class="home-btn" onclick="abrirCategoria('jantinha','')">Jantinha</button>
+    <button type="button" class="home-btn" onclick="abrirCategoria('jantinha','strogonoff')">Strogonoff</button>
+    <button type="button" class="home-btn" onclick="abrirCategoria('bebidasnaturais','')">Natural</button>
+    <button type="button" class="home-btn" onclick="abrirCategoria('refrigerantes','')">Bebidas</button>
+    <button type="button" class="home-btn" onclick="abrirCategoria('cervejas','')">Cervejas</button>
+    <button type="button" class="home-btn" onclick="abrirCategoria('drinks','')">Drinks</button>
+    <button type="button" class="home-btn" onclick="abrirCategoria('doses','')">Doses</button>
 </div>
 
+<!-- BARRA DO TOPO COM MENU -->
+<div class="topbar" id="topbar">
+  <button type="button" class="menu-btn" aria-label="Abrir menu de categorias" onclick="abrirMenu()">☰</button>
+  <span class="topbar-titulo" id="topbar-titulo"></span>
+</div>
+<div class="drawer-overlay" id="drawer-overlay" onclick="fecharMenu()"></div>
+<nav class="drawer" id="drawer">
+    <button type="button" class="drawer-item" onclick="voltarInicio()">Início</button>
+    <button type="button" class="drawer-item" onclick="abrirCategoria('espetinhos','')">Espetinhos</button>
+    <button type="button" class="drawer-item" onclick="abrirCategoria('porcoes','')">Porções</button>
+    <button type="button" class="drawer-item" onclick="abrirCategoria('hamburguer','')">Hambúrguer</button>
+    <button type="button" class="drawer-item" onclick="abrirCategoria('jantinha','')">Jantinha</button>
+    <button type="button" class="drawer-item" onclick="abrirCategoria('jantinha','strogonoff')">Strogonoff</button>
+    <button type="button" class="drawer-item" onclick="abrirCategoria('bebidasnaturais','')">Natural</button>
+    <button type="button" class="drawer-item" onclick="abrirCategoria('refrigerantes','')">Bebidas</button>
+    <button type="button" class="drawer-item" onclick="abrirCategoria('cervejas','')">Cervejas</button>
+    <button type="button" class="drawer-item" onclick="abrirCategoria('drinks','')">Drinks</button>
+    <button type="button" class="drawer-item" onclick="abrirCategoria('doses','')">Doses</button>
+</nav>
+
 <!-- ESPETINHOS -->
-<div class="section active" id="sec-espetinhos">
+<div class="section" id="sec-espetinhos">
   <div class="section-title">Espetinhos</div>
   <div class="section-subtitle">Selecione e escolha a quantidade</div>
   <div id="items-espetinhos"></div>
@@ -663,6 +699,17 @@
   <div class="obs-box">
     <label>📝 Observações do pedido</label>
     <textarea id="obs-field-porcoes" rows="3" placeholder=""></textarea>
+  </div>
+</div>
+
+<!-- HAMBÚRGUER -->
+<div class="section" id="sec-hamburguer">
+  <div class="section-title">Hambúrguer</div>
+  <div class="section-subtitle">Selecione e escolha a quantidade</div>
+  <div id="items-hamburguer"></div>
+  <div class="obs-box">
+    <label>📝 Observações do pedido</label>
+    <textarea id="obs-field-hamburguer" rows="3" placeholder=""></textarea>
   </div>
 </div>
 
@@ -769,6 +816,7 @@ const WPP_NUMBER = '5531996202280'; // Número com DDI+DDD sem espaços
 const CATEGORIAS = [
   { key: 'espetinhos', label: 'Espetinhos' },
   { key: 'porcoes', label: 'Porções' },
+  { key: 'hamburguer', label: 'Hambúrguer' },
   { key: 'jantinha', label: 'Jantinha' },
   { key: 'bebidasnaturais', label: 'Natural' },
   { key: 'refrigerantes', label: 'Bebidas' },
@@ -783,13 +831,13 @@ const cardapio = {
     itens: [
       { id: "es1", nome: "Camarão", preco: 16.00 },
       { id: "es2", nome: "Picanha", preco: 30.00 },
-      { id: "es3", nome: "Contra Filé", preco: 12.00 },
+      { id: "es3", nome: "Contra Filé", preco: 14.00 },
       { id: "es4", nome: "Medalhão de Queijo", preco: 12.00 },
       { id: "es5", nome: "Porco", preco: 12.00 },
       { id: "es6", nome: "Linguiça Caseira", preco: 12.00 },
       { id: "es7", nome: "Tulipa", preco: 12.00 },
       { id: "es8", nome: "Coxinha da Asa", preco: 12.00 },
-      { id: "es9", nome: "Romeu e Julieta", preco: 12.00 },
+      { id: "es9", nome: "Romeu e Julieta", preco: 14.00 },
       { id: "es10", nome: "Kafta", preco: 12.00 },
       { id: "es11", nome: "Almôndega Recheada", preco: 12.00 },
       { id: "es12", nome: "Medalhão de Frango", preco: 12.00 },
@@ -823,12 +871,19 @@ const cardapio = {
       { id: "po19", nome: "Vinagrete <span class=\"peso\">300gr</span>", preco: 8.00 },
     ],
   },
+  hamburguer: {
+    tipo: 'flat',
+    itens: [
+      { id: "hb1", nome: "Hambúrguer Artesanal feito na Brasa", preco: 25.00, desc: "Pão com gergelim, 120gr de carne bovina feita na brasa, bacon, muçarela, cebola, tomate e alface." },
+    ],
+  },
   jantinha: {
     tipo: 'grupos',
     grupos: [
       { label: null, itens: [
-        { id: "ja1", nome: "Jantinha com 1 Espeto", preco: 32.00, desc: "Arroz branco com alho frito, purê de batata, farofa da casa e um espetinho de sua preferência. Opções de espeto no cardápio. Observação: Exceto picanha e camarão." },
-        { id: "ja2", nome: "Jantinha com 2 Espetos", preco: 35.00, desc: "Arroz branco com alho frito, purê de batata, farofa da casa e dois espetinhos de sua preferência. Opções de espeto no cardápio. Observação: Exceto 2 bois, picanha e camarão." },
+        { id: "ja1", nome: "Jantinha com 1 Espeto", preco: 30.00, desc: "Arroz branco com alho frito, purê de batata, farofa da casa e um espetinho de sua preferência. Opções de espeto no cardápio. Observação: exceto boi, picanha e camarão." },
+        { id: "ja2", nome: "Jantinha com 2 Espetos", preco: 35.00, desc: "Arroz branco com alho frito, purê de batata, farofa da casa e dois espetinhos de sua preferência. Opções de espeto no cardápio. Observação: exceto boi, picanha e camarão." },
+        { id: "ja3", nome: "Jantinha com 2 Espetos de Boi", preco: 38.00, desc: "Arroz branco com alho frito, purê de batata, farofa da casa e dois espetinhos de sua preferência. Opções de espeto no cardápio. Observação: picanha e camarão." },
       ] },
       { label: "Strogonoff", labelStyle: 'section', itens: [
         { id: "st1", nome: "Strogonoff de Carne Completo <span class=\"peso\">500gr</span>", preco: 29.90, desc: "Suculenta iscas de carne envolvidas por molho de strogonoff cremoso, arroz branco com alho frito e batata palha.<br>Obs: Não possui champignon" },
@@ -839,7 +894,7 @@ const cardapio = {
   bebidasnaturais: {
     tipo: 'flat',
     itens: [
-      { id: "na1", nome: "Água de Coco", preco: 8.00 },
+      { id: "na1", nome: "Água de Coco", preco: 9.00 },
       {
         id: "na2",
         nome: "Suco de Frutas",
@@ -866,17 +921,17 @@ const cardapio = {
       { id: "rf10", nome: "Guarapan <span class=\"peso\">220ml</span>", preco: 5.00 },
       { id: "rf11", nome: "Coca-Cola <span class=\"peso\">1L</span>", preco: 10.00 },
       { id: "rf12", nome: "Guaraná <span class=\"peso\">1L</span>", preco: 9.00 },
-      { id: "rf13", nome: "Coca-Cola <span class=\"peso\">2L</span>", preco: 15.00 },
+      { id: "rf13", nome: "Coca-Cola <span class=\"peso\">2L</span>", preco: 17.00 },
       { id: "rf14", nome: "Guaraná <span class=\"peso\">2L</span>", preco: 13.00 },
       { id: "rf15", nome: "Guaraná Zero <span class=\"peso\">2L</span>", preco: 13.00 },
       { id: "rf16", nome: "Fanta <span class=\"peso\">2L</span>", preco: 12.00 },
-      { id: "rf17", nome: "Limoneto", preco: 7.00 },
+      { id: "rf17", nome: "Limoneto", preco: 8.00 },
       { id: "rf18", nome: "Suco <span class=\"peso\">Lata 290ml</span>", preco: 7.00 },
-      { id: "rf19", nome: "Suco <span class=\"peso\">Caixa 1L</span>", preco: 12.00 },
+      { id: "rf19", nome: "Suco <span class=\"peso\">Caixa 1L</span>", preco: 13.00 },
       { id: "rf20", nome: "Água Mineral", preco: 4.00 },
       { id: "rf21", nome: "Água com Gás", preco: 5.00 },
       { id: "rf22", nome: "Red Bull <span class=\"peso\">250ml</span>", preco: 13.00 },
-      { id: "rf23", nome: "Monster <span class=\"peso\">473ml</span>", preco: 13.00 },
+      { id: "rf23", nome: "Monster <span class=\"peso\">473ml</span>", preco: 14.00 },
     ],
   },
   cervejas: {
@@ -894,7 +949,7 @@ const cardapio = {
       { label: "Latão", itens: [
         { id: "lt1", nome: "Heineken <span class=\"peso\">Latão</span>", preco: 12.00 },
         { id: "lt2", nome: "Original <span class=\"peso\">Latão</span>", preco: 8.00 },
-        { id: "lt3", nome: "Brahma <span class=\"peso\">Latão</span>", preco: 7.00 },
+        { id: "lt3", nome: "Brahma <span class=\"peso\">Latão</span>", preco: 8.00 },
         { id: "lt4", nome: "Skol <span class=\"peso\">Latão</span>", preco: 7.00 },
         { id: "lt5", nome: "Kaiser <span class=\"peso\">Latão</span>", preco: 6.00 },
       ] },
@@ -1282,6 +1337,42 @@ if (tabsWrapperEl) {
   tabsWrapperEl.addEventListener('scroll', atualizarHintAbas);
   window.addEventListener('resize', atualizarHintAbas);
   atualizarHintAbas();
+}
+
+
+// PÁGINA INICIAL E MENU LATERAL
+const ROTULOS = { espetinhos:'Espetinhos', porcoes:'Porções', hamburguer:'Hambúrguer', jantinha:'Jantinha', bebidasnaturais:'Natural', refrigerantes:'Bebidas', cervejas:'Cervejas', drinks:'Drinks', doses:'Doses' };
+function abrirCategoria(key, ancora) {
+  fecharMenu();
+  document.getElementById('home').classList.add('oculto');
+  document.getElementById('topbar').classList.add('ativo');
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  const sec = document.getElementById('sec-' + key);
+  if (sec) sec.classList.add('active');
+  document.getElementById('topbar-titulo').textContent = ancora === 'strogonoff' ? 'Strogonoff' : (ROTULOS[key] || '');
+  let alvo = null;
+  if (ancora === 'strogonoff' && sec) {
+    alvo = Array.from(sec.querySelectorAll('.subsection-title')).find(el => el.textContent.trim() === 'Strogonoff');
+  }
+  if (alvo) { alvo.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  else { document.getElementById('topbar').scrollIntoView({ block: 'start' }); }
+}
+function voltarInicio() {
+  fecharMenu();
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById('topbar').classList.remove('ativo');
+  document.getElementById('home').classList.remove('oculto');
+  window.scrollTo({ top: 0 });
+}
+document.body.appendChild(document.getElementById('drawer-overlay'));
+document.body.appendChild(document.getElementById('drawer'));
+function abrirMenu() {
+  document.getElementById('drawer').classList.add('ativo');
+  document.getElementById('drawer-overlay').classList.add('ativo');
+}
+function fecharMenu() {
+  document.getElementById('drawer').classList.remove('ativo');
+  document.getElementById('drawer-overlay').classList.remove('ativo');
 }
 
 </script>
